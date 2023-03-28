@@ -1,4 +1,4 @@
-# Igor trigger test1
+# Igor trigger test2
 [![Build Status](https://api.travis-ci.org/spinnaker/igor.svg?branch=master)](https://travis-ci.org/spinnaker/igor)
 
 Igor provides a single point of integration with Jenkins, Travis and Git repositories ( BitBucket, Stash, and Github ) within Spinnaker.
