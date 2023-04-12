@@ -93,7 +93,7 @@ class JenkinsClientSpec extends Specification {
 
     void 'correctly retrieves downstream projects'() {
         given:
-        setResponse '<freeStyleProject><action></action><action></action><action></action><action></action><action></action><action></action><action></action><name>SPINNAKER-wows</name><url>http://builds.netflix.com/job/SPINNAKER-wows/</url><downstreamProject><name>SPINNAKER-volt-netflix</name><url>http://builds.netflix.com/job/SPINNAKER-volt-netflix/</url></downstreamProject></freeStyleProject>'
+        setResponse ("<freeStyleProject><action></action><action></action><action></action><action></action><action></action><action></action><action></action><name>SPINNAKER-wows</name><url>http://builds.netflix.com/job/SPINNAKER-wows/</url><downstreamProject><name>SPINNAKER-volt-netflix</name><url>http://builds.netflix.com/job/SPINNAKER-volt-netflix/</url></downstreamProject></freeStyleProject>")
         List dependencies = client.getDependencies('SPINNAKER-wows').downstreamProjects
 
         expect:

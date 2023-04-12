@@ -24,13 +24,19 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.springframework.boot:spring-boot-starter-web"
 
-    implementation "javax.xml.bind:jaxb-api"
-    implementation "com.sun.xml.bind:jaxb-core:2.3.0.1"
-    implementation "com.sun.xml.bind:jaxb-impl:2.3.2"
+    implementation "jakarta.xml.bind:jakarta.xml.bind-api"
+    implementation "com.sun.xml.bind:jaxb-core"
+    implementation "com.sun.xml.bind:jaxb-impl"
 
-    implementation "com.vdurmont:semver4j"
+    implementation "com.vdurmont:semver4j:2.0.1"
     implementation "commons-io:commons-io"
+    api("org.apache.groovy:groovy:4.0.9")
+    api("org.apache.groovy:groovy-json:4.0.9")
+    api("org.apache.groovy:groovy-xml:4.0.9")
 
+    testImplementation "org.apache.groovy:groovy:4.0.9"
+    testImplementation "org.apache.groovy:groovy-json:4.0.9"
+    testImplementation "org.apache.groovy:groovy-xml:4.0.9"
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.spockframework:spock-core"
     testImplementation "org.spockframework:spock-spring"
@@ -38,7 +44,6 @@ dependencies {
     testImplementation "org.hamcrest:hamcrest-core"
     testRuntimeOnly "cglib:cglib-nodep"
     testRuntimeOnly "org.objenesis:objenesis"
-    implementation "org.codehaus.groovy:groovy"
 
     implementation "com.fasterxml.jackson.core:jackson-annotations"
     implementation "com.fasterxml.jackson.core:jackson-core"
@@ -49,8 +54,8 @@ dependencies {
     implementation "com.squareup.retrofit:retrofit"
     implementation "com.squareup.retrofit:converter-jackson"
     implementation "com.squareup.okhttp:okhttp"
-    implementation "com.squareup.okhttp:okhttp-urlconnection"
-    implementation "com.squareup.okhttp:okhttp-apache"
+    implementation "com.squareup.okhttp:okhttp-urlconnection:2.7.5"
+    implementation "com.squareup.okhttp:okhttp-apache:2.7.5"
     implementation "com.squareup.okhttp3:okhttp-sse"
     implementation "com.jakewharton.retrofit:retrofit1-okhttp3-client:1.1.0"
     implementation "io.spinnaker.fiat:fiat-api:$fiatVersion"
@@ -61,9 +66,9 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-context"
     implementation "org.springframework.cloud:spring-cloud-config-server"
 
-    implementation "com.amazonaws:aws-java-sdk"
-    implementation "com.google.apis:google-api-services-cloudbuild"
-    implementation "com.google.apis:google-api-services-storage"
+    implementation "com.amazonaws:aws-java-sdk:1.12.411"
+    implementation "com.google.apis:google-api-services-cloudbuild:v1-rev836-1.25.0"
+    implementation "com.google.apis:google-api-services-storage:v1-rev141-1.25.0"
     implementation 'com.google.auth:google-auth-library-oauth2-http'
     implementation "io.spinnaker.kork:kork-config"
     implementation "io.spinnaker.kork:kork-cloud-config-server"
@@ -80,17 +85,41 @@ dependencies {
     implementation "com.google.code.gson:gson"
     implementation "com.google.guava:guava"
     implementation "javax.inject:javax.inject:1"
-    implementation "javax.validation:validation-api"
+    implementation "jakarta.validation:jakarta.validation-api:3.0.2"
+    implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
 
     runtimeOnly "io.spinnaker.kork:kork-runtime"
 
-    testImplementation "com.squareup.okhttp:mockwebserver"
+    testImplementation "com.squareup.okhttp:mockwebserver:2.7.5"
     testImplementation "io.spinnaker.kork:kork-jedis-test"
-    testImplementation "org.codehaus.groovy:groovy-all"
     testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "org.assertj:assertj-core"
 
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     testImplementation "com.github.tomakehurst:wiremock-jre8:2.22.0"
+
+    testImplementation "jakarta.validation:jakarta.validation-api:3.0.2"
+    testImplementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
+    testImplementation "jakarta.activation:jakarta.activation-api:2.1.0"
+    testImplementation "org.springframework.cloud:spring-cloud-config-server"
+
+//    testImplementation "javax.xml.bind:jaxb-api:2.3.1"
+//    testImplementation "com.sun.xml.bind:jaxb-core:4.0.0"
+//    testImplementation "com.sun.xml.bind:jaxb-impl:4.0.0"
+//    testImplementation "javax.activation:activation"
+//    testImplementation "jakarta.activation:jakarta.activation-api:2.1.0"
+//    testImplementation "jakarta.xml.bind:jakarta.xml.bind-api:4.0.0"
+}
+
+tasks.withType(Tar) {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(Zip) {
+  duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+run {
+  jvmArgs = ['--add-opens=java.base/sun.net=ALL-UNNAMED', '--add-exports=java.base/sun.net=ALL-UNNAMED', '--add-opens=java.base/java.time=ALL-UNNAMED']
 }

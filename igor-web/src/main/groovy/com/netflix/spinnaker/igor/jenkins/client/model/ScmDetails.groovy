@@ -20,7 +20,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
 import com.netflix.spinnaker.igor.build.model.GenericGitRevision
 import groovy.transform.CompileStatic
 
-import javax.xml.bind.annotation.XmlElement
+import jakarta.xml.bind.annotation.XmlElement
 import java.util.stream.Collectors
 
 /**

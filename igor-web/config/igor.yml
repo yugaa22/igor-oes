@@ -16,6 +16,11 @@ spinnaker:
 
 spring.jackson.serialization.write_dates_as_timestamps: false
 
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
 server.port: 8088
 
 redis:
@@ -56,3 +61,8 @@ redis:
 #  maven-publish plugin.
 #  regexes:
 #  - Upload https?:\/\/.+\/(.+\.(deb|rpm))$
+
+springdoc.swagger-ui.path: /igor-documentation
+springdoc.api-docs.path: /igor-api-docs
+springdoc.swagger-ui.tryItOutEnabled: true
+springdoc.swagger-ui.filter: true

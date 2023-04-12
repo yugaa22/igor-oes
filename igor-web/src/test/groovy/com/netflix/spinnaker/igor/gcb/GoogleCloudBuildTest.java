@@ -16,20 +16,10 @@
 
 package com.netflix.spinnaker.igor.gcb;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
 import com.google.api.services.cloudbuild.v1.model.Build;
 import com.google.api.services.cloudbuild.v1.model.BuildOptions;
 import com.google.api.services.cloudbuild.v1.model.BuildStep;
@@ -40,31 +30,27 @@ import com.google.api.services.cloudbuild.v1.model.RepoSource;
 import com.netflix.spinnaker.igor.RedisConfig;
 import com.netflix.spinnaker.igor.config.LockManagerConfig;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@RunWith(SpringRunner.class)
+// @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @EnableWebMvc
 @ComponentScan({"com.netflix.spinnaker.config", "com.netflix.spinnaker.igor"})
@@ -93,10 +79,15 @@ public class GoogleCloudBuildTest {
   @TestConfiguration
   @EnableWebSecurity
   @Order(1)
-  static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-      httpSecurity.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
+  static class WebSecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+      http.authorizeHttpRequests((authz) -> authz.anyRequest().permitAll())
+          .csrf()
+          .disable()
+          .httpBasic(withDefaults());
+      //      httpSecurity.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
+      return http.build();
     }
   }
 
@@ -319,7 +310,8 @@ public class GoogleCloudBuildTest {
 
     assertThat(stubCloudBuildService.findUnmatchedRequests().getRequests()).isEmpty();
 
-    // The initial request should prime the cache, so we should get the same result back on re-try
+    // The initial request should prime the cache, so we should get the same result back on
+    // re-try
     // without hitting
     // the GCB API again
 

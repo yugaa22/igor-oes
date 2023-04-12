@@ -1,27 +1,16 @@
 package com.netflix.spinnaker.igor.artifacts;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.netflix.spinnaker.igor.Main;
-import com.netflix.spinnaker.igor.build.model.GenericBuild;
-import com.netflix.spinnaker.igor.build.model.GenericGitRevision;
-import com.netflix.spinnaker.kork.artifacts.model.Artifact;
-import java.time.Instant;
-import java.util.List;
-import java.util.Map;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
+// @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Main.class)
 @TestPropertySource(properties = {"spring.application.name = igor"})
 public class ArtifactExtractorTest {
 
-  @Autowired private ArtifactExtractor artifactExtractor;
+  @Autowired ArtifactExtractor artifactExtractor;
 
   @Test
   public void should_be_able_to_serialize_jsr310_dates() {
