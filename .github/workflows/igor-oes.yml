@@ -49,6 +49,8 @@ jobs:
               extra_opts_escaped=$(sed 's/[\/&]/\\&/g' <<< "$extra_opts")
               sed "s/^\(DEFAULT_JVM_OPTS=\'.*\)\'$/\1 $extra_opts_escaped\'/" -i igor-web/build/install/igor/bin/igor
               
+              cat igor-web/build/install/igor/bin/igor
+              
       - name: dockerBuildpush
         uses: docker/build-push-action@v2
         with:
