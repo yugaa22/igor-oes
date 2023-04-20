@@ -66,6 +66,6 @@ jobs:
         with:
           context: .
           file: docker/ubi8/Dockerfile
-          push: false
+          push: true
           tags: |
             "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}" 
