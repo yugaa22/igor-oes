@@ -60,6 +60,7 @@ import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.util.UriUtils;
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import retrofit.RetrofitError;
@@ -285,7 +286,7 @@ public class JenkinsService implements BuildOperations, BuildProperties {
       try (InputStream propertyStream =
           this.getPropertyFile(job, build.getNumber(), path).getBody().in()) {
         if (fileName.endsWith(".yml") || fileName.endsWith(".yaml")) {
-          Yaml yml = new Yaml(new SafeConstructor());
+          Yaml yml = new Yaml(new SafeConstructor(new LoaderOptions()));
           map = yml.load(propertyStream);
         } else if (fileName.endsWith(".json")) {
           map = objectMapper.readValue(propertyStream, new TypeReference<Map<String, Object>>() {});
