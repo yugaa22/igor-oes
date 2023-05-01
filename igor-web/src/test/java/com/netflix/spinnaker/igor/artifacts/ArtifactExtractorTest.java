@@ -1,6 +1,15 @@
 package com.netflix.spinnaker.igor.artifacts;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.netflix.spinnaker.igor.Main;
+import com.netflix.spinnaker.igor.build.model.GenericBuild;
+import com.netflix.spinnaker.igor.build.model.GenericGitRevision;
+import com.netflix.spinnaker.kork.artifacts.model.Artifact;
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;

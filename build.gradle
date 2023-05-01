@@ -52,11 +52,17 @@ subprojects {
     sourceSets.main.groovy.srcDirs += ["src/main/java"]
 
     dependencies {
-      implementation enforcedPlatform("io.spinnaker.kork:kork-bom:$korkVersion")
+      implementation enforcedPlatform("io.spinnaker.kork:kork-bom:$korkVersion"){
+        exclude group: 'org.apache.groovy', module: 'groovy-json'
+      }
       compileOnly "org.projectlombok:lombok"
-      annotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion")
+      annotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion"){
+        exclude group: 'org.apache.groovy', module: 'groovy-json'
+      }
       annotationProcessor "org.projectlombok:lombok"
-      testAnnotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion")
+      testAnnotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion"){
+        exclude group: 'org.apache.groovy', module: 'groovy-json'
+      }
       testAnnotationProcessor "org.projectlombok:lombok"
 
       implementation "org.springframework.boot:spring-boot-starter-actuator"
@@ -84,6 +90,7 @@ subprojects {
       implementation "net.logstash.logback:logstash-logback-encoder:4.11"
       implementation "jakarta.validation:jakarta.validation-api:3.0.2"
       implementation "com.squareup.retrofit:converter-jackson:1.9.0"
+
     }
 
     tasks.withType(Copy).all {
