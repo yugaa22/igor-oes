@@ -95,7 +95,7 @@ dependencies {
     implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
 
     runtimeOnly "io.spinnaker.kork:kork-runtime"
-    testImplementation "com.squareup.okhttp3:mockwebserver"
+
     testImplementation "com.squareup.okhttp:mockwebserver:2.7.5"
     testImplementation "io.spinnaker.kork:kork-jedis-test"
     testImplementation "org.junit.jupiter:junit-jupiter-api"
@@ -104,18 +104,15 @@ dependencies {
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     testImplementation "com.github.tomakehurst:wiremock-jre8:2.22.0"
-    implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.15.0"
+
     testImplementation "jakarta.validation:jakarta.validation-api:3.0.2"
     testImplementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
     testImplementation "jakarta.activation:jakarta.activation-api:2.1.0"
     testImplementation "org.springframework.cloud:spring-cloud-config-server"
 
-
     implementation "com.squareup.okio:okio-jvm:3.2.0"
-    testImplementation "javax.xml.bind:jaxb-api:2.3.1"
 
-
-
+//    testImplementation "javax.xml.bind:jaxb-api:2.3.1"
 //    testImplementation "com.sun.xml.bind:jaxb-core:4.0.0"
 //    testImplementation "com.sun.xml.bind:jaxb-impl:4.0.0"
 //    testImplementation "javax.activation:activation"

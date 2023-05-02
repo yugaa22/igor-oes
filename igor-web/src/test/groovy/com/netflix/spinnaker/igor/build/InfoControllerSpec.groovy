@@ -345,8 +345,7 @@ class InfoControllerSpec extends Specification {
 
     void 'is able to get a job config where a parameter includes choices'() {
         given:
-        def a=getJobConfigWithChoices()
-        setResponse(a)
+        setResponse(getJobConfigWithChoices())
         createMocks(['master1': service])
 
         when:
