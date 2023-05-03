@@ -38,7 +38,7 @@ subprojects {
   if ([korkVersion, fiatVersion].find { it.endsWith('-SNAPSHOT') }) {
     repositories {
       mavenLocal()
-       maven{
+      maven{
         url "https://nexus.opsmx.net/repository/maven-snapshots/"
       }
     }
@@ -54,9 +54,13 @@ subprojects {
     dependencies {
       implementation enforcedPlatform("io.spinnaker.kork:kork-bom:$korkVersion")
       compileOnly "org.projectlombok:lombok"
-      annotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion")
+      annotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion"){
+        exclude group: "io.netty", module: "netty-codec-http"
+      }
       annotationProcessor "org.projectlombok:lombok"
-      testAnnotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion")
+      testAnnotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion"){
+        exclude group: "io.netty", module: "netty-codec-http"
+      }
       testAnnotationProcessor "org.projectlombok:lombok"
 
       implementation "org.springframework.boot:spring-boot-starter-actuator"
