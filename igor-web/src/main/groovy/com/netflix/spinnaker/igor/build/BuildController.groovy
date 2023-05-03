@@ -201,7 +201,7 @@ class BuildController {
       .drop(4)
       .dropRight(2)
       .join('/')
-    // The buildNumber is present at the end of the URI so we extract it
+    // The buildNumber is present at the end of the URI after the last slash(/)
     def var = request.getRequestURI().split('/')
     buildNumber = var[var.length-1].toInteger()
     def buildService = getBuildService(master)
