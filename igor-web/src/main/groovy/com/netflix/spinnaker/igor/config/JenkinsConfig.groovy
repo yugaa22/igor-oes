@@ -19,7 +19,7 @@ package com.netflix.spinnaker.igor.config
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule
+import com.fasterxml.jackson.module.jakarta.xmlbind.JakartaXmlBindAnnotationModule
 import com.jakewharton.retrofit.Ok3Client
 import com.netflix.spectator.api.Registry
 import com.netflix.spinnaker.fiat.model.resources.Permissions
@@ -125,7 +125,7 @@ class JenkinsConfig {
     static ObjectMapper getObjectMapper() {
         return new XmlMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .registerModule(new JaxbAnnotationModule())
+            .registerModule(new JakartaXmlBindAnnotationModule())
     }
 
   static JenkinsClient jenkinsClient(JenkinsProperties.JenkinsHost host,
