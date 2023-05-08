@@ -45,12 +45,12 @@ dependencies {
   testRuntimeOnly "cglib:cglib-nodep"
   testRuntimeOnly "org.objenesis:objenesis"
 
-  implementation "com.fasterxml.jackson.core:jackson-annotations"
   implementation "com.fasterxml.jackson.core:jackson-core"
   implementation "com.fasterxml.jackson.core:jackson-databind"
   implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml"
-  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+  implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml"
 
+  implementation "com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.0"
   implementation "com.squareup.retrofit:retrofit"
   implementation "com.squareup.retrofit:converter-jackson"
   implementation "com.squareup.okhttp:okhttp"
@@ -88,7 +88,7 @@ dependencies {
   implementation "com.google.guava:guava"
   implementation "javax.inject:javax.inject:1"
   implementation "jakarta.validation:jakarta.validation-api:3.0.2"
-  implementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
+  testImplementation "com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.0"
   implementation("io.netty:netty-codec-http:4.1.86.Final"){
     force=true}
   testImplementation("io.netty:netty-codec-http:4.1.86.Final"){force=true}
@@ -101,13 +101,13 @@ dependencies {
 
   testRuntimeOnly "org.junit.vintage:junit-vintage-engine"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-  testImplementation "com.github.tomakehurst:wiremock-jre8:2.22.0"
+  testImplementation "com.github.tomakehurst:wiremock:3.0.0-beta-8"
 
   testImplementation "jakarta.validation:jakarta.validation-api:3.0.2"
   testImplementation "com.fasterxml.jackson.module:jackson-module-jaxb-annotations"
   testImplementation "jakarta.activation:jakarta.activation-api:2.1.0"
   testImplementation "org.springframework.cloud:spring-cloud-config-server"
-
+  implementation "com.squareup.okio:okio-jvm:3.2.0"
 //    testImplementation "javax.xml.bind:jaxb-api:2.3.1"
 //    testImplementation "com.sun.xml.bind:jaxb-core:4.0.0"
 //    testImplementation "com.sun.xml.bind:jaxb-impl:4.0.0"

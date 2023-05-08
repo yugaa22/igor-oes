@@ -40,7 +40,14 @@ import com.google.api.services.cloudbuild.v1.model.Operation;
 import com.google.api.services.cloudbuild.v1.model.RepoSource;
 import com.netflix.spinnaker.igor.RedisConfig;
 import com.netflix.spinnaker.igor.config.LockManagerConfig;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,10 +60,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 // @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
@@ -76,19 +87,19 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
       "spring.application.name = igor"
     })
 public class GoogleCloudBuildTest {
-  @Autowired private MockMvc mockMvc;
-
   @Autowired
   @Qualifier("stubCloudBuildService")
   private WireMockServer stubCloudBuildService;
 
+  @Autowired private WebApplicationContext webApplicationContext;
   private ObjectMapper objectMapper = new ObjectMapper();
+  MockMvc mockMvc;
 
   @TestConfiguration
   @EnableWebSecurity
   @Order(1)
-  static class WebSecurityConfig {
-    @Bean
+  static class WebSecurityConfig implements WebMvcConfigurer {
+    @Bean(name = "stubSecurityFilterChain")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
       http.authorizeHttpRequests((authz) -> authz.anyRequest().permitAll())
           .csrf()
@@ -97,6 +108,18 @@ public class GoogleCloudBuildTest {
       //      httpSecurity.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
       return http.build();
     }
+  }
+
+  @Autowired
+  @Qualifier(value = "stubSecurityFilterChain")
+  public SecurityFilterChain securityFilterChain;
+
+  @BeforeEach
+  public void setup() throws Exception {
+    this.mockMvc =
+        MockMvcBuilders.webAppContextSetup(webApplicationContext)
+            .addFilters(new FilterChainProxy(securityFilterChain))
+            .build();
   }
 
   @Test

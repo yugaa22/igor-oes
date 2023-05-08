@@ -37,6 +37,6 @@ class Commit {
 
   @JsonProperty(value = "date")
   public void setDate(String utctimestamp) {
-    date = ZonedDateTime.parse(utctimestamp).toDate()
+    date = Date.from(ZonedDateTime.parse(utctimestamp).toInstant())
   }
 }

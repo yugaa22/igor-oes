@@ -52,7 +52,9 @@ subprojects {
     sourceSets.main.groovy.srcDirs += ["src/main/java"]
 
     dependencies {
-      implementation enforcedPlatform("io.spinnaker.kork:kork-bom:$korkVersion")
+      implementation enforcedPlatform("io.spinnaker.kork:kork-bom:$korkVersion"){
+        exclude group: "io.netty", module: "netty-codec-http"
+      }
       compileOnly "org.projectlombok:lombok"
       annotationProcessor platform("io.spinnaker.kork:kork-bom:$korkVersion"){
         exclude group: "io.netty", module: "netty-codec-http"

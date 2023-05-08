@@ -233,7 +233,7 @@ class JenkinsClientSpec extends Specification {
         )
         server.start()
         def host = new JenkinsProperties.JenkinsHost(
-            address: server.getUrl('/').toString(),
+            address: server.url('/').toString(),
             username: 'username',
             password: 'password')
         client = new JenkinsConfig().jenkinsClient(host)
