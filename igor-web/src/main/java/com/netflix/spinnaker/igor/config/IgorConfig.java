@@ -16,7 +16,6 @@
 
 package com.netflix.spinnaker.igor.config;
 
-import com.netflix.spectator.api.DefaultRegistry;
 import com.netflix.spectator.api.Registry;
 import com.netflix.spinnaker.config.PluginsAutoConfiguration;
 import com.netflix.spinnaker.fiat.shared.EnableFiatAutoConfig;
@@ -28,7 +27,6 @@ import com.netflix.spinnaker.kork.artifacts.parsing.DefaultJinjavaFactory;
 import com.netflix.spinnaker.kork.artifacts.parsing.JinjaArtifactExtractor;
 import com.netflix.spinnaker.kork.artifacts.parsing.JinjavaFactory;
 import com.netflix.spinnaker.kork.core.RetrySupport;
-import com.netflix.spinnaker.kork.discovery.DiscoveryStatusListener;
 import com.netflix.spinnaker.kork.web.interceptors.MetricsInterceptor;
 import groovy.util.logging.Slf4j;
 import java.util.Collections;
@@ -52,23 +50,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableScheduling
 @Import(PluginsAutoConfiguration.class)
 public class IgorConfig implements WebMvcConfigurer {
-  @Bean
-  Registry getRegistry() {
-    return new DefaultRegistry();
-  }
 
-  @Bean
-  public DiscoveryStatusListener discoveryStatusListener() {
-    return new DiscoveryStatusListener();
-  }
+  private final Registry registry;
 
-  public IgorConfig() {}
+  public IgorConfig(Registry registry) {
+    this.registry = registry;
+  }
 
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
     registry.addInterceptor(
         new MetricsInterceptor(
-            getRegistry(),
+            this.registry,
             "controller.invocations",
             Collections.singletonList("master"),
             null,
