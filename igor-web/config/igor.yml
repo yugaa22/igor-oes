@@ -1,4 +1,4 @@
-services.fiat.baseUrl: https://fiat.net
+services.fiat.baseUrl: http://spin-fiat:7003
 
 netflix:
   appinfo:
