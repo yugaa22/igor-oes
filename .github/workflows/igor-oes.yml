@@ -79,7 +79,6 @@ jobs:
                
               echo "${{ steps.docker_build.outputs.metadata}}"  jq '."image.name"'
               
-                             echo "${{ steps.docker_build.outputs.metadata."image.name"}}" 
 
 
              
