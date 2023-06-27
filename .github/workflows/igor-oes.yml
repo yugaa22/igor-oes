@@ -69,7 +69,7 @@ jobs:
         with:
           context: .
           file: docker/ubi8/Dockerfile-dev
-          push: true
+          push: false
           tags: |
             "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}-dev"    
             
