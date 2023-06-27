@@ -75,10 +75,11 @@ jobs:
         run: | 
              #echo "igor-Fips: ${{ steps.docker_build.outputs.metadata.image.name }}"  
 
-               #echo ${{ steps.docker_build.outputs.metadata.image.name}}" 
+               echo "${{ steps.docker_build.outputs.metadata.image.name}}" 
                
-                             echo "${{ steps.docker_build.outputs.metadata}}"  > test.json
+              echo "${{ steps.docker_build.outputs.metadata}}"  jq '."image.name"'
               
-              test.json | jq '."image.name"'
+                             echo "${{ steps.docker_build.outputs.metadata."image.name"}}" 
+
 
              
