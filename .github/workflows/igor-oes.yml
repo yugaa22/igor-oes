@@ -78,12 +78,8 @@ jobs:
         run: | 
              touch test.json
 
-               echo "${{ steps.docker_build.outputs.metadata.image.name}}" 
-               
-             # echo "${{ steps.docker_build.outputs.metadata}}" |  jq '."image.name"'
-                            
-              echo ${{ steps.docker_build.outputs.metadata}} > test.json
-              
+               echo  "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}"    > test.json
+
               cat test.json 
 
 
