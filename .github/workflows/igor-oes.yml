@@ -77,12 +77,12 @@ jobs:
 
              # echo "igor-Fips: ${{ steps.docker_build.outputs}}" 
               
-              echo ${{ steps.docker_build.outputs}}" 
-
+              #echo ${{ steps.docker_build.outputs}}" 
+               echo "hii"
               echo ${{ steps.docker_build.outputs.imageid}}" 
-
+               echo "hello"
               echo ${{ steps.docker_build.outputs.metadata}}" 
 
 
-              echo ${{ steps.docker_build.outputs.digest}}" 
+              #echo ${{ steps.docker_build.outputs.digest}}" 
              
