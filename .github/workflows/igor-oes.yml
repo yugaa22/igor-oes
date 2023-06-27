@@ -62,6 +62,7 @@ jobs:
             cat igor-web/build/install/igor/bin/igor
               
       - name: dockerBuildpush
+        id: docker_build
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -70,10 +71,21 @@ jobs:
           tags: |
             "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}" 
       - name: dockerBuildpushdev
+        id: docker_build-dev
         uses: docker/build-push-action@v2
         with:
           context: .
           file: docker/ubi8/Dockerfile-dev
           push: true
           tags: |
-            "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}-dev"            
+            "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}-dev"    
+            
+      - name: Print Docker Tag
+        run: | 
+             echo "igor-Fips: ${{ steps.docker_build.outputs.metadata.image.name }}"  
+             echo "igor-Dev: ${{ steps.docker_build-dev.outputs.metadata.image.name }}"  
+             
+             echo "igor-Fips: ${{ steps.docker_build.outputs.digest }}"  > igor.yml
+             echo "igor-Dev: ${{ steps.docker_build-dev.outputs.digest }}" >> igor.yml
+             
+             cat igor.yml
