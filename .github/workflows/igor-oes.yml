@@ -53,6 +53,13 @@ jobs:
                 sed "s/^\(DEFAULT_JVM_OPTS\)\s*=\s*'.*'\$/\1='$extra_opts_escaped'/" -i  igor-web/build/install/igor/bin/igor 
 
             cat igor-web/build/install/igor/bin/igor
+      - name: Login to Quay
+        uses: docker/login-action@v1
+        # use service account flow defined at: https://github.com/docker/login-action#service-account-based-authentication-1
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_KEY }}
               
       - name: dockerBuildpush
         id: docker_build
@@ -60,7 +67,7 @@ jobs:
         with:
           context: .
           file: docker/ubi8/Dockerfile-fips
-          push: false
+          push: true
           tags: |
             "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}" 
       - name: dockerBuildpushdev
@@ -69,7 +76,7 @@ jobs:
         with:
           context: .
           file: docker/ubi8/Dockerfile-dev
-          push: false
+          push: true
           tags: |
             "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}-dev"    
             
