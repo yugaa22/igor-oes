@@ -73,6 +73,16 @@ jobs:
             
       - name: Print Docker Tag
         run: | 
-             echo "igor-Fips: ${{ steps.docker_build.outputs.metadata.image.name }}"  
+             #echo "igor-Fips: ${{ steps.docker_build.outputs.metadata.image.name }}"  
 
-             echo "igor-Fips: ${{ steps.docker_build.outputs}}" 
+             # echo "igor-Fips: ${{ steps.docker_build.outputs}}" 
+              
+              echo ${{ steps.docker_build.outputs}}" 
+
+              echo ${{ steps.docker_build.outputs.imageid}}" 
+
+              echo ${{ steps.docker_build.outputs.metadata}}" 
+
+
+              echo ${{ steps.docker_build.outputs.digest}}" 
+             
