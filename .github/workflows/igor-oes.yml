@@ -70,15 +70,21 @@ jobs:
           push: true
           tags: |
             "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}"   
-            
+                  
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Print Docker Tag
         run: | 
-             #echo "igor-Fips: ${{ steps.docker_build.outputs.metadata.image.name }}"  
+             touch test.json
 
                echo "${{ steps.docker_build.outputs.metadata.image.name}}" 
                
-              echo "${{ steps.docker_build.outputs.metadata}}" |  jq '."image.name"'
+             # echo "${{ steps.docker_build.outputs.metadata}}" |  jq '."image.name"'
+                            
+              echo ${{ steps.docker_build.outputs.metadata}} > test.json
               
+              cat test.json 
 
 
              
