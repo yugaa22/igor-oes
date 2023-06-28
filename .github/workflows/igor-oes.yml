@@ -1,7 +1,13 @@
 name: Branch Build igor
- 
 on:
   workflow_call:
+    inputs:
+      branch:
+        description: 'The Branch To build'
+        default: 'OES-1.30.1'
+        required: false
+        type: string
+        
   push:
     branches:
     - OES-1.30.x
@@ -16,7 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+         repository: opsmx/igor-oes
+         ref: refs/heads/${{ inputs.branch }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
@@ -25,7 +32,6 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
-          cache: 'gradle'
       - name: Prepare build variables
         id: build_variables
         run: |
