@@ -1,4 +1,4 @@
-name: Manual workflow
+name: Manual Build Igor
 
 on:
   workflow_dispatch:
