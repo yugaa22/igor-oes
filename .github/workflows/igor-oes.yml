@@ -1,24 +1,21 @@
-name: Branch Build igor
+name: Manual workflow
+
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       branch:
-        description: 'The Branch To build'
+        description: 'Branch to Build'
         default: 'OES-1.30.1'
-        required: false
+        required: true
         type: string
-        
- # push:
-  #  branches:
-   # - OES-1.30.x
- 
+
 env:
   GRADLE_OPTS: -Dorg.gradle.daemon=false -Xmx6g -Xms6g
   CONTAINER_REGISTRY: quay.io/opsmxpublic
 
 jobs:
   branch-build:
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v2
         with:
@@ -87,6 +84,3 @@ jobs:
                echo  "${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}"    > test.json
 
               cat test.json 
-
-
-             
