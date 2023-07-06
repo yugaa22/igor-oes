@@ -88,9 +88,9 @@ jobs:
 
       - name: update igor and push
         run: |
-          kubectl -n ${{ env.K8S_NAMESPACE }} exec -it spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/default/service-settings && sed -i '2d' ${{ env.K8S_SERVICE_NAME }}.yml && sed -i '1s|^|#|' ${{ env.K8S_SERVICE_NAME }}.yml && sed -i '1s|^|artifactId: ${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}-dev\n|' ${{ env.K8S_SERVICE_NAME }}.yml"
+          kubectl -n ${{ env.K8S_NAMESPACE }} exec  spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/default/service-settings && sed -i '2d' ${{ env.K8S_SERVICE_NAME }}.yml && sed -i '1s|^|#|' ${{ env.K8S_SERVICE_NAME }}.yml && sed -i '1s|^|artifactId: ${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }}-dev\n|' ${{ env.K8S_SERVICE_NAME }}.yml"
 
-          kubectl -n ${{ env.K8S_NAMESPACE }} exec -it spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/ && git config --global user.name yugaa22 && git config --global user.email yugaa22@gmail.com  && git add /home/spinnaker/.hal/default/service-settings/igor.yml && git commit -m "updating igor image" && git push && hal deploy apply"
+          kubectl -n ${{ env.K8S_NAMESPACE }} exec  spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/ && git config --global user.name yugaa22 && git config --global user.email yugaa22@gmail.com  && git add /home/spinnaker/.hal/default/service-settings/igor.yml && git commit -m "updating igor image" && git push && hal deploy apply"
 
           
           kubectl rollout status deployment/${{ env.K8S_DEPLOYMENT_NAME }} -n ${{ env.K8S_NAMESPACE }}
