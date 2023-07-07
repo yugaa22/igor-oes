@@ -84,13 +84,14 @@ jobs:
       - name: Deploy to Kubernetes
         uses: azure/k8s-set-context@v1
         with:
-          kubeconfig: ${{ secrets.KUBECONFIGTEST }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: update igor and push
         run: |
-          kubectl -n ${{ env.K8S_NAMESPACE }} exec  spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/default/service-settings && echo  artifactId: ${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }} >> ${{ env.K8S_SERVICE_NAME }}.yml"
+          #kubectl -n ${{ env.K8S_NAMESPACE }} exec  spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/default/service-settings && echo  artifactId: ${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }} >> ${{ env.K8S_SERVICE_NAME }}.yml"
 
-          kubectl -n ${{ env.K8S_NAMESPACE }} exec  spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/ && git config --global user.name yugaa22 && git config --global user.email yugaa22@gmail.com  && git add /home/spinnaker/.hal/default/service-settings/igor.yml && git commit -m "updating igor image" && git push && hal deploy apply"
-
+          #kubectl -n ${{ env.K8S_NAMESPACE }} exec  spin-spinnaker-halyard-0 -- bash -c "cd /home/spinnaker/.hal/ && git config --global user.name yugaa22 && git config --global user.email yugaa22@gmail.com  && git add /home/spinnaker/.hal/default/service-settings/igor.yml && git commit -m "updating igor image" && git push && hal deploy apply"
           
-          kubectl rollout status deployment/${{ env.K8S_DEPLOYMENT_NAME }} -n ${{ env.K8S_NAMESPACE }}
+          kubectl -n ${{ env.K8S_NAMESPACE }} run git-pod --image=alpine/git --restart=Never --command -- sh -c "apk add --no-cache git && git clone https://github.com/yugaa22/cve-target.git && git config --global user.email "yugaa22@gmail.com" && git config --global user.name "yugaa22" && touch cve-target/default/service-settings/${{ env.K8S_SERVICE_NAME }}.yml && echo  artifactId: ${{ env.CONTAINER_REGISTRY }}/${{ steps.build_variables.outputs.REPO }}:${{ steps.build_variables.outputs.VERSION }} >> ${{ env.K8S_SERVICE_NAME }}.yml && git add . && git commit  -m "updating igor image" && git push https://yugaa22:${{ secrets.GIT_TOKEN }}@github.com/yugaa22/cve-target.git "
+          
+          #kubectl rollout status deployment/${{ env.K8S_DEPLOYMENT_NAME }} -n ${{ env.K8S_NAMESPACE }}
