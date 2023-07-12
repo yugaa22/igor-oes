@@ -27,10 +27,10 @@ jobs:
         run: |
           #  ls ${{ github.workspace }}     
           git branch
-          touch Dev_commits
+          touch Dev_commits2
           git config --global user.email "yugaa22@gmail.com"
           git config --global user.name "yugaa22"
-          git log -1 | grep commit | awk '{print $2}'  >> Dev_commits
+          git log -1 | grep commit | awk '{print $2}'  >> Dev_commits2
           git add .
           git commit -m "Developper_commits"
           git push
