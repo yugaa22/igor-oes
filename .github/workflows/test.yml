@@ -46,7 +46,7 @@ jobs:
           curl -u yugaa22:${{ secrets.GIT_TOKEN }} -X POST  -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/opsmx/cve-target/git/refs \
            -d '{
                "ref": "refs/heads/main",
-               "sha": "abcdef1234567890"
+               "sha": "aa218f56b14c9653891f9e74264a383fa43fefbd"
              }'
           
           #git push
