@@ -39,19 +39,20 @@ jobs:
           git config user.email github-actions[bot]@users.noreply.github.com
           git log -1 | grep commit | awk '{print $2}'  >> Dev_commits2
           git add .
+          
           git commit -m "Developper_commits"
+          
+          
+          curl -u yugaa22:${{ secrets.GIT_TOKEN }} -X POST  -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/opsmx/cve-target/git/refs \
+           -d '{
+               "ref": "refs/heads/main",
+               "sha": "abcdef1234567890"
+             }'
+          
           #git push
           #git push https://yugaa22:${{ secrets.GIT_TOKEN }}@github.com/opsmx/cve-target.git --force
           #git push
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GIT_TOKEN }}
-          branch: ${{ github.ref }}
-      - uses: fastify/github-action-merge-dependabot@v2.1.1
-        with:
-          github-token: ${{ secrets.GIT_TOKEN }}
           
       - uses: actions/checkout@v2
         with:
