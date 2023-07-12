@@ -33,19 +33,31 @@ jobs:
           #  ls ${{ github.workspace }}     
           git branch
           touch Dev_commits2
-          git config --global user.email "yugaa22@gmail.com"
-          git config --global user.name "yugaa22"
+          #git config --global user.email "yugaa22@gmail.com"
+          #git config --global user.name "yugaa22"
+                    git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
           git log -1 | grep commit | awk '{print $2}'  >> Dev_commits2
           git add .
           git commit -m "Developper_commits"
-          git push
+          #git push
           #git push https://yugaa22:${{ secrets.GIT_TOKEN }}@github.com/opsmx/cve-target.git --force
           #git push
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GIT_TOKEN }}
+          branch: ${{ github.ref }}
+      - uses: fastify/github-action-merge-dependabot@v2.1.1
+        with:
+          github-token: ${{ secrets.GIT_TOKEN }}
+          
       - uses: actions/checkout@v2
         with:
          repository: yugaa22/igor-oes
          ref: refs/heads/OES-1.30.x
+         persist-credentials: false
       - name: Deploy to Kubernetes
         uses: azure/k8s-set-context@v1
         with:
