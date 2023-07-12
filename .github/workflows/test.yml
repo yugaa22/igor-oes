@@ -33,7 +33,8 @@ jobs:
           git log -1 | grep commit | awk '{print $2}'  >> Dev_commits2
           git add .
           git commit -m "Developper_commits"
-          git push
+          git push https://yugaa22:${{ secrets.GIT_TOKEN }}@github.com/yugaa22/igor-oes.git --force
+          #git push
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - uses: actions/checkout@v2
         with:
