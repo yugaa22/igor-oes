@@ -12,6 +12,8 @@ env:
   K8S_DEPLOYMENT_NAME: spin-igor
   K8S_SERVICE_NAME: igor
   K8S_NAMESPACE: cvetarget
+permissions:
+  contents: write
 
 jobs:
   branch-build:
