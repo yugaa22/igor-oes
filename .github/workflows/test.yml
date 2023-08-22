@@ -36,7 +36,9 @@ jobs:
            #https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN_TEST }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git
 
             kubectl -n  ${{ inputs.namespace}} delete secret  opsmx-gitops-auth 
+
+            kubectl -n  ${{ inputs.namespace}} get secret 
           
            kubectl -n ${{ inputs.namespace}} create secret generic opsmx-gitops-auth  --from-literal=gitcloneparam="https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git" --from-literal=gituser=${{ secrets.GIT_USERNAME }} --from-literal=gittoken='${{ secrets.GIT_TOKEN }}'
          
-           kubectl -n ${{ inputs.namespace}} get secret generic opsmx-gitops-auth -o yaml  | yq '.data.gitcloneparam' | base64 -d
+           kubectl -n ${{ inputs.namespace}} get secret  opsmx-gitops-auth -o yaml  | yq '.data.gitcloneparam' | base64 -d
