@@ -30,11 +30,13 @@ jobs:
           
       - name: Setup OpsMx Helm chart and Install
         run: |
-           export KUBECONFIG=ninja-training-cluster.config
-           kubectl create ns ${{ inputs.namespace}} 
+          export KUBECONFIG=ninja-training-cluster.config
+          # kubectl create ns ${{ inputs.namespace}} 
 
            #https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN_TEST }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git
-            
-           kubectl -n ${{ inputs.namespace}} create secret generic opsmx-gitops-auth  --from-literal=gitcloneparam='https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN_TEST }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git' --from-literal=gituser=${{ secrets.GIT_USERNAME }} --from-literal=gittoken='${{ secrets.GIT_TOKEN }}'
+
+            kubectl -n  ${{ inputs.namespace}} delete secret generic opsmx-gitops-auth 
+          
+           kubectl -n ${{ inputs.namespace}} create secret generic opsmx-gitops-auth  --from-literal=gitcloneparam="https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git" --from-literal=gituser=${{ secrets.GIT_USERNAME }} --from-literal=gittoken='${{ secrets.GIT_TOKEN }}'
          
-           kubectl -n ${{ inputs.namespace}} get secret generic opsmx-gitops-auth -o yaml 
+           kubectl -n ${{ inputs.namespace}} get secret generic opsmx-gitops-auth -o yaml  | yq '.data.gitcloneparam' | base64 -d
