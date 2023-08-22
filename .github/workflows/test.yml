@@ -19,6 +19,46 @@ jobs:
     steps:
       - name: Checkout 
         uses: actions/checkout@v3
+
+
+
+      - name: Create Secret
+        env:
+          ACCESS_TOKEN: ${{ secrets.GIT_TOKEN }}
+          #ORG: ${{ inputs.organisation }}
+          #SECRET_NAME: GIT_USERNAME  # Replace with the name you want for the secret
+          #GITHUB_USERNAME: ${{inputs.gitusername}}
+          #GITHUB_REPO: ${{ inputs.repository }}
+          #LOCAL_FILE_PATH: "ninja-training-cluster.config"
+        run: |
+
+             # Base64 encode the content            
+             GITORG_CONTENT=$(echo "yugaa22" | base64 )
+             GITREPO_CONTENT=$(echo "cve-target" | base64 )
+             GITUSERNAME_CONTENT=$(echo yugaa22 | base64 )
+             GITTOKEN_CONTENT=$(echo abcero | base64 )
+             SPINVERSION_CONTENT=$(echo 1.30.1 | base64 )
+             
+              # Fetch the public key for the repository
+              RESPONSE=$(curl -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${ACCESS_TOKEN}" "https://api.github.com/repos/${{ github.repository }}/actions/secrets/public-key")
+              
+              # Extract the key_id and key from the response
+              KEY_ID=$(echo "$RESPONSE" | jq -r '.key_id')
+              #KEY=$(echo "$RESPONSE" | jq -r '.key')
+
+              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/version"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${SPINVERSION_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+
+              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/organisation"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITORG_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+
+              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/repository"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITREPO_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+
+              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/GIT_USERNAME"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITUSERNAME_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+
+              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/GIT_TOKEN"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITTOKEN_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+
+
+
+        
       - name: Display structure of downloaded files
         run: |
            ls -ltra 
