@@ -80,7 +80,7 @@ jobs:
           # kubectl create ns ${{ inputs.namespace}} 
 
 
-             kubectl -n ${{ inputs.namespace}} create secret generic testing --from-literal=version=${{ secrets.version }}
+             kubectl -n ${{ inputs.namespace}} create secret generic testing --from-literal=version=${{ secrets.test }}
 
           
            #kubectl -n ${{ inputs.namespace}} create secret generic opsmx-gitops-auth  --from-literal=gitcloneparam="https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git" --from-literal=gituser=${{ secrets.GIT_USERNAME }} --from-literal=gittoken='${{ secrets.GIT_TOKEN }}'
