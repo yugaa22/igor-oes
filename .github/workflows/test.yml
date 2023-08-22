@@ -7,7 +7,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Spinnaker namespace'
         # Default value if no value is explicitly provided
-        default: 'spinnaker'
+        default: 'spinnaker1'
         # Input has to be provided for the workflow to run
         required: false
         # The data type of the input
@@ -37,4 +37,4 @@ jobs:
             
            kubectl -n ${{ inputs.namespace}} create secret generic opsmx-gitops-auth  --from-literal=gitcloneparam='https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN_TEST }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git' --from-literal=gituser=${{ secrets.GIT_USERNAME }} --from-literal=gittoken='${{ secrets.GIT_TOKEN }}'
          
-           kubectl -n ${{ inputs.namespace}} create secret generic opsmx-gitops-auth -o yaml 
+           kubectl -n ${{ inputs.namespace}} get secret generic opsmx-gitops-auth -o yaml 
