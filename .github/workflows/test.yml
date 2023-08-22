@@ -33,10 +33,10 @@ jobs:
         run: |
 
              # Base64 encode the content            
-             GITORG_CONTENT=$(echo "yugaa22" | base64 )
-             GITREPO_CONTENT=$(echo "cve-target" | base64 )
-             GITUSERNAME_CONTENT=$(echo yugaa22 | base64 )
-             GITTOKEN_CONTENT=$(echo abcero | base64 )
+             GITORG_CONTENT=$(echo "yugaa22111" | base64 )
+             GITREPO_CONTENT=$(echo "cve-target111" | base64 )
+             GITUSERNAME_CONTENT=$(echo yugaa22111 | base64 )
+             GITTOKEN_CONTENT=$(echo abcerossss | base64 )
              SPINVERSION_CONTENT=$(echo 1.30.1 | base64 )
              
               # Fetch the public key for the repository
