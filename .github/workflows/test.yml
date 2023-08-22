@@ -40,7 +40,10 @@ jobs:
              SPINVERSION_CONTENT=$(echo 1.30.1 | base64 )
              
               # Fetch the public key for the repository
-              RESPONSE=$(curl -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${ACCESS_TOKEN}" "https://api.github.com/repos/${{ github.repository }}/actions/secrets/public-key")
+              RESPONSE=$(curl -X GET -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer ${ACCESS_TOKEN}" "https://api.github.com/repos/${{ github.repository }}/actions/secrets/public-key")
+
+
+              echo $RESPONSE
               
               # Extract the key_id and key from the response
               KEY_ID=$(echo "$RESPONSE" | jq -r '.key_id')
@@ -48,13 +51,13 @@ jobs:
 
               #curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/version"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${SPINVERSION_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
 
-              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/organisation"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITORG_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+              #curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/organisation"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITORG_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
 
-              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/repository"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITREPO_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+              #curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/repository"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITREPO_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
 
-              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/GIT_USERNAME"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITUSERNAME_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+              #curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/GIT_USERNAME"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITUSERNAME_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
 
-              curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/GIT_TOKEN"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITTOKEN_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
+             # curl -X PUT "https://api.github.com/repos/${{ github.repository }}/actions/secrets/GIT_TOKEN"   -H "Authorization: token ${ACCESS_TOKEN}"   -H "Accept: application/vnd.github.v3+json"   -d "{\"encrypted_value\": \"${GITTOKEN_CONTENT}\",\"key_id\": \"${KEY_ID}\"}"
               
               curl -L -X PUT -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" https://api.github.com/orgs/yugaa22/actions/secrets/version  -d '{"encrypted_value":"${SPINVERSION_CONTENT}","key_id":"012345678912345678"}'
 
