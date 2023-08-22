@@ -35,7 +35,7 @@ jobs:
 
            #https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_TOKEN_TEST }}@github.com/${{ secrets.organisation }}/${{ secrets.repository }}.git
 
-            kubectl -n  ${{ inputs.namespace}} delete secret  opsmx-gitops-auth 
+            #kubectl -n  ${{ inputs.namespace}} delete secret  opsmx-gitops-auth 
 
             kubectl -n  ${{ inputs.namespace}} get secret 
           
