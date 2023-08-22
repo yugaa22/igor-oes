@@ -20,7 +20,9 @@ jobs:
 
       - name: Display structure of downloaded files
         run: |
-           ls -ltra ninja-training-cluster.config           
+           ls -ltra 
+           pwd
+           
            kubectl get ns  --kubeconfig ninja-training-cluster.config
 
 
