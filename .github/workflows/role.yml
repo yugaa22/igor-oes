@@ -1,0 +1,30 @@
+name: Update dist files on main branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::732813442182:role/ROL-Spinnaker-Managed-Role
+        aws-region: us-east-2
+
+    - name: Copy files to the test website with the AWS CLI
+      run: |
+        echo "hiii" > hello
+
+        ls 
+        aws s3 hello  s3://opsmx-terraform-state
+         ls -ltra
