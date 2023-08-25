@@ -63,9 +63,6 @@ jobs:
 
                 sed "s/^\(DEFAULT_JVM_OPTS\)\s*=\s*'.*'\$/\1='$extra_opts_escaped'/" -i  igor-web/build/install/igor/bin/igor 
 
-            #cat igor-web/build/install/igor/bin/igor
-      - name: Checkout code
-        uses: actions/checkout@v3
 
       - name: Build an image from Dockerfile
         run: |
