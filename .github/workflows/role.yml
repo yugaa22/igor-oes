@@ -24,7 +24,6 @@ jobs:
     - name: Copy files to the test website with the AWS CLI
       run: |
         echo "hiii" > hello
-
-        ls 
-        aws s3 hello  s3://opsmx-terraform-state
+        ls
+        aws s3 cp s3://opsmx-terraform-state/kubefile kubeconfig
          ls -ltra
