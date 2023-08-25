@@ -28,3 +28,10 @@ jobs:
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+
+      - name: Copy files to the test website with the AWS CLI
+        run: |
+          echo "hiii" > hello
+          ls
+          aws s3 cp s3://opsmx-terraform-state/kubefile kubeconfig
+          ls -ltra
