@@ -8,11 +8,6 @@ name: trivy
 on:
   workflow_dispatch:
 
-  push:
-    branches: [ "OES-1.30.x" ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "OES-1.30.x" ]
 
 
 permissions:
